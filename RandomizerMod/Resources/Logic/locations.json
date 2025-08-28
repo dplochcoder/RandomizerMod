@@ -1081,7 +1081,7 @@
   },
   {
     "name": "Lifeblood_Cocoon-Failed_Tramway",
-    "logic": "(Deepnest_26 + (LEFTCLAW | WINGS + ENEMYPOGOS) | Deepnest_26[left1] + Opened_Tramway_Exit_Gate) + (LEFTCLAW | WINGS + (RIGHTCLAW + (LEFTDASH | LEFTSUPERDASH | OBSCURESKIPS + PRECISEMOVEMENT) | ENEMYPOGOS | $SHADESKIP))"
+    "logic": "(Deepnest_26 + (LEFTCLAW | WINGS + ENEMYPOGOS | $SHRIEKPOGO) | Deepnest_26[left1] + Opened_Tramway_Exit_Gate) + (LEFTCLAW | WINGS + (RIGHTCLAW + (LEFTDASH | LEFTSUPERDASH | OBSCURESKIPS + PRECISEMOVEMENT) | ENEMYPOGOS | $SHADESKIP))"
   },
   {
     "name": "Lifeblood_Cocoon-Galien",
