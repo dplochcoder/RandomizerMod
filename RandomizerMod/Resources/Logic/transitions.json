@@ -3673,7 +3673,7 @@
   {
     "sceneName": "Abyss_20",
     "gateName": "top1",
-    "logic": "Abyss_20[top1] | Abyss_20[top2] + (LEFTCLAW | ENEMYPOGOS + WINGS)",
+    "logic": "Abyss_20[top1] | Abyss_20[top2] + (LEFTCLAW | ENEMYPOGOS + WINGS | RIGHTCLAW + $SHRIEKPOGO[2])",
     "oneWayType": "TwoWay",
     "Name": "Abyss_20[top1]"
   },
