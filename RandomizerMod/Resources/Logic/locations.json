@@ -885,7 +885,7 @@
   },
   {
     "name": "Grub-Resting_Grounds",
-    "logic": "RestingGrounds_10 + (LEFTCLAW | WINGS) + UPWALLBREAK"
+    "logic": "RestingGrounds_10 + (LEFTCLAW | WINGS | (ENEMYPOGOS + RIGHTCLAW)) + UPWALLBREAK"
   },
   {
     "name": "Grub-Crystal_Peak_Below_Chest",
@@ -1925,7 +1925,7 @@
   },
   {
     "name": "Geo_Rock-Resting_Grounds_Catacombs_Grub",
-    "logic": "RestingGrounds_10 + (LEFTCLAW | WINGS) + UPWALLBREAK"
+    "logic": "RestingGrounds_10 + (LEFTCLAW | WINGS | (ENEMYPOGOS + RIGHTCLAW)) + UPWALLBREAK"
   },
   {
     "name": "Geo_Rock-Resting_Grounds_Catacombs_Left_Dupe",
