@@ -16,30 +16,30 @@ namespace RandomizerMod.Settings
         public delegate bool IntTermResolver(string term, out int result);
         public static event IntTermResolver OnResolveIntTerm;
 
-        public override bool Evaluate(TermToken token)
+        public override bool IsDefined(string atom)
         {
-            if (token is ConstToken bt)
+            if (OnResolveBoolTerm != null)
             {
-                return bt.Value;
-            }
-            else if (token is SimpleToken st)
-            {
-                return GetBool(st.Name);
-            }
-            else if (token is ComparisonToken ct)
-            {
-                return ct.ComparisonType switch
+                foreach (BoolTermResolver d in OnResolveBoolTerm.GetInvocationList().Cast<BoolTermResolver>())
                 {
-                    ComparisonType.LT => GetInt(ct.Left) < GetInt(ct.Right),
-                    ComparisonType.GT => GetInt(ct.Left) > GetInt(ct.Right),
-                    _ => GetInt(ct.Left) == GetInt(ct.Right)
-                };
+                    if (d(atom, out _)) return true;
+                }
             }
-            else if (token is MacroToken mt)
+
+            if (OnResolveIntTerm != null)
             {
-                return Evaluate(mt.Value);
+                foreach (IntTermResolver d in OnResolveIntTerm.GetInvocationList().Cast<IntTermResolver>())
+                {
+                    if (d(atom, out _)) return true;
+                }
             }
-            else throw new ArgumentException($"Unable to evaluate token: " + token);
+
+            return GetBaseField(atom).HasValue;
+        }
+
+        public override int EvaluateToInt(string atom)
+        {
+            return GetInt(atom);
         }
 
         public int GetInt(string name)
@@ -47,29 +47,31 @@ namespace RandomizerMod.Settings
             if (int.TryParse(name, out int value)) return value;
             if (OnResolveIntTerm != null)
             {
-                foreach (IntTermResolver d in OnResolveIntTerm.GetInvocationList())
+                foreach (IntTermResolver d in OnResolveIntTerm.GetInvocationList().Cast<IntTermResolver>())
                 {
                     if (d(name, out int result)) return result;
                 }
             }
 
-            return name switch
-            {
-                _ => throw new NotImplementedException(),
-            };
+            return GetBaseField(name) ?? throw new ArgumentException($"Unrecognized term in SettingsPM: {name}");
         }
 
         public bool GetBool(string name)
         {
             if (OnResolveBoolTerm != null)
             {
-                foreach (BoolTermResolver d in OnResolveBoolTerm.GetInvocationList())
+                foreach (BoolTermResolver d in OnResolveBoolTerm.GetInvocationList().Cast<BoolTermResolver>())
                 {
                     if (d(name, out bool result)) return result;
                 }
             }
 
-            return name switch
+            return (GetBaseField(name) ?? throw new ArgumentException($"Unrecognized term in SettingsPM: {name}")) != 0;
+        }
+
+        private int? GetBaseField(string name)
+        {
+            bool? flag = name switch
             {
                 "PRECISEMOVEMENT" => GS.SkipSettings.PreciseMovement,
                 "PROFICIENTCOMBAT" => GS.SkipSettings.ProficientCombat,
@@ -91,19 +93,20 @@ namespace RandomizerMod.Settings
                 "ITEMRANDO" => GS.TransitionSettings.Mode == TransitionSettings.TransitionMode.None,
                 "MAPAREARANDO" => GS.TransitionSettings.Mode == TransitionSettings.TransitionMode.MapAreaRandomizer,
                 "FULLAREARANDO" => GS.TransitionSettings.Mode == TransitionSettings.TransitionMode.FullAreaRandomizer,
-                "AREARANDO" => GS.TransitionSettings.Mode == TransitionSettings.TransitionMode.FullAreaRandomizer 
+                "AREARANDO" => GS.TransitionSettings.Mode == TransitionSettings.TransitionMode.FullAreaRandomizer
                 || GS.TransitionSettings.Mode == TransitionSettings.TransitionMode.MapAreaRandomizer,
                 "ROOMRANDO" => GS.TransitionSettings.Mode == TransitionSettings.TransitionMode.RoomRandomizer,
-                
+
                 "SWIM" => !GS.NoveltySettings.RandomizeSwim,
                 "ELEVATOR" => !GS.NoveltySettings.RandomizeElevatorPass,
 
                 "2MASKS" => GS.CursedSettings.CursedMasks < 4,
-                
-                "VERTICAL" => GS.StartItemSettings.VerticalMovement != StartItemSettings.StartVerticalType.None 
+
+                "VERTICAL" => GS.StartItemSettings.VerticalMovement != StartItemSettings.StartVerticalType.None
                     && GS.StartItemSettings.VerticalMovement != StartItemSettings.StartVerticalType.ZeroOrMore,
-                _ => throw new ArgumentException($"Unrecognized term in SettingsPM: {name}"),
+                _ => null,
             };
+            return flag.HasValue ? flag.Value ? 1 : 0 : null;
         }
     }
 }

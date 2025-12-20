@@ -48,12 +48,26 @@ namespace RandomizerMod.RandomizerData
 
         public virtual bool CanBeSelected(SettingsPM pm)
         {
-            return pm.Evaluate(Logic);
+            try
+            {
+                return pm.Evaluate(Logic);
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException($"Error determining menu selectability of StartDef {Name}", e);
+            }
         }
 
         public virtual bool CanBeRandomized(SettingsPM pm)
         {
-            return pm.Evaluate(RandoLogic ?? Logic);
+            try
+            {
+                return pm.Evaluate(RandoLogic ?? Logic);
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException($"Error determining randomizability of StartDef {Name}", e);
+            }
         }
 
         public virtual bool DisplayInMenu(SettingsPM pm)

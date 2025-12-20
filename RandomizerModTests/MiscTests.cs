@@ -1,4 +1,5 @@
-﻿using RandomizerCore.Logic;
+﻿using FluentAssertions;
+using RandomizerCore.Logic;
 using RandomizerMod.RandomizerData;
 using RandomizerMod.RC;
 using RandomizerMod.Settings;
@@ -7,6 +8,14 @@ namespace RandomizerModTests
 {
     public class MiscLogicTests
     {
+        [Fact]
+        public void BasicSettingsPMTest()
+        {
+            GenerationSettings gs = new();
+            SettingsPM pm = new(gs);
+            pm.Evaluate(new RandomizerCore.StringLogic.LogicClause("PRECISEMOVEMENT")).Should().BeFalse();
+            pm.Evaluate(new RandomizerCore.StringLogic.LogicClause("ANY")).Should().BeTrue();
+        }
 
         [Fact]
         public void NoLocationsUnlockedWithoutState()
