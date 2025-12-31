@@ -15,6 +15,7 @@ namespace RandomizerModTests
             SettingsPM pm = new(gs);
             pm.Evaluate(new RandomizerCore.StringLogic.LogicClause("PRECISEMOVEMENT")).Should().BeFalse();
             pm.Evaluate(new RandomizerCore.StringLogic.LogicClause("ANY")).Should().BeTrue();
+            pm.Evaluate(new RandomizerCore.StringLogic.LogicClause("0")).Should().BeFalse();
         }
 
         [Fact]

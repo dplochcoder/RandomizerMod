@@ -1,4 +1,5 @@
 ﻿using RandomizerCore.StringLogic;
+using RandomizerCore.StringParsing;
 
 namespace RandomizerMod.Settings
 {
@@ -44,7 +45,16 @@ namespace RandomizerMod.Settings
 
         public int GetInt(string name)
         {
-            if (int.TryParse(name, out int value)) return value;
+            if (int.TryParse(name, out int num)) return num;
+            if (BoolLiteralExpression.IsConstAtom(name)) return new BoolLiteralExpression(new NameToken(name)).ConstValue ? 1 : 0;
+
+            if (OnResolveBoolTerm != null)
+            {
+                foreach (BoolTermResolver d in OnResolveBoolTerm.GetInvocationList().Cast<BoolTermResolver>())
+                {
+                    if (d(name, out bool result)) return result ? 1 : 0;
+                }
+            }
             if (OnResolveIntTerm != null)
             {
                 foreach (IntTermResolver d in OnResolveIntTerm.GetInvocationList().Cast<IntTermResolver>())
@@ -52,21 +62,13 @@ namespace RandomizerMod.Settings
                     if (d(name, out int result)) return result;
                 }
             }
-
+            
             return GetBaseField(name) ?? throw new ArgumentException($"Unrecognized term in SettingsPM: {name}");
         }
 
         public bool GetBool(string name)
         {
-            if (OnResolveBoolTerm != null)
-            {
-                foreach (BoolTermResolver d in OnResolveBoolTerm.GetInvocationList().Cast<BoolTermResolver>())
-                {
-                    if (d(name, out bool result)) return result;
-                }
-            }
-
-            return (GetBaseField(name) ?? throw new ArgumentException($"Unrecognized term in SettingsPM: {name}")) != 0;
+            return GetInt(name) > 0;
         }
 
         private int? GetBaseField(string name)
