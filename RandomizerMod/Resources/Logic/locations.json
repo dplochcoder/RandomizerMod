@@ -1413,7 +1413,7 @@
   },
   {
     "name": "Geo_Rock-Deepnest_Spike_Grub_Right",
-    "logic": "Deepnest_03[top1] | Deepnest_03[right1] + RIGHTCLAW | Deepnest_03 + (FULLCLAW | WINGS | LEFTCLAW + $SHADESKIP | RIGHTCLAW + ENEMYPOGOS + COMPLEXSKIPS)"
+    "logic": "Deepnest_03[top1] | Deepnest_03[left1] + RIGHTCLAW | Deepnest_03 + (FULLCLAW | WINGS | LEFTCLAW + $SHADESKIP | RIGHTCLAW + ENEMYPOGOS + COMPLEXSKIPS)"
   },
   {
     "name": "Geo_Rock-Deepnest_By_Mantis_Lords_Garpede_Pogo",
