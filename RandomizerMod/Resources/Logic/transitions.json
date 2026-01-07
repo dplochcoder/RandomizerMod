@@ -3925,7 +3925,7 @@
   {
     "sceneName": "Waterways_09",
     "gateName": "left1",
-    "logic": "Waterways_09[left1] | Waterways_09[right1] + (LEFTCLAW | WINGS | (RIGHTCLAW + (LEFTDASH | LEFTSUPERDASH)))",
+    "logic": "Waterways_09[left1] | Waterways_09[right1] + Opened_Waterways_Exit",
     "oneWayType": "TwoWay",
     "Name": "Waterways_09[left1]"
   },
