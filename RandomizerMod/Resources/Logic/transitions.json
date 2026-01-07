@@ -2509,14 +2509,14 @@
   {
     "sceneName": "Deepnest_26",
     "gateName": "left1",
-    "logic": "Deepnest_26[left1] | Deepnest_26 + (LEFTCLAW | (WINGS + ENEMYPOGOS)) + Opened_Tramway_Exit_Gate",
+    "logic": "Deepnest_26[left1] | Deepnest_26 + (LEFTCLAW | (WINGS + ENEMYPOGOS) | $SHRIEKPOGO) + Opened_Tramway_Exit_Gate",
     "oneWayType": "TwoWay",
     "Name": "Deepnest_26[left1]"
   },
   {
     "sceneName": "Deepnest_26",
     "gateName": "left2",
-    "logic": "Deepnest_26[left2] | Deepnest_26 + (LEFTCLAW | (WINGS + ENEMYPOGOS))",
+    "logic": "Deepnest_26[left2] | Deepnest_26 + (LEFTCLAW | (WINGS + ENEMYPOGOS) | $SHRIEKPOGO)",
     "oneWayType": "TwoWay",
     "Name": "Deepnest_26[left2]"
   },
