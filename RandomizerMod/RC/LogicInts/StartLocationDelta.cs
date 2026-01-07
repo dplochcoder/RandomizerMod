@@ -1,5 +1,6 @@
 ﻿using RandomizerCore.Logic;
 using RandomizerCore.Logic.StateLogic;
+using RandomizerMod.Settings;
 
 namespace RandomizerMod.RC.LogicInts
 {
@@ -34,7 +35,9 @@ namespace RandomizerMod.RC.LogicInts
 
         public override StateUnion? GetInputState(object? sender, ProgressionManager pm)
         {
-            return ((RandoModContext)pm.ctx).GenerationSettings.StartLocationSettings.StartLocation == Location
+            if (pm.ctx is not RandoModContext { GenerationSettings: GenerationSettings gs }) throw new NullReferenceException("StartLocationDelta evaluated on pm without attached ctx with generation settings.");
+
+            return gs.StartLocationSettings.StartLocation == Location
                 ? StartStateTerm is not null
                 ? pm.GetState(StartStateTerm)
                 : StateUnion.Empty 

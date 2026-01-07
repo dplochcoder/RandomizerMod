@@ -189,7 +189,7 @@
     "y": 30.4,
     "zone": "WATERWAYS",
     "transition": "Waterways_09[left1]",
-    "logic": "(ITEMRANDO + ENEMYPOGOS + SHADESKIPS + 2MASKS) | MAPAREARANDO | FULLAREARANDO | ROOMRANDO"
+    "logic": "(ITEMRANDO + ENEMYPOGOS + SHADESKIPS + PRECISEMOVEMENT + 2MASKS) | MAPAREARANDO | FULLAREARANDO | ROOMRANDO"
   },
   "Queen's Gardens": {
     "name": "Queen's Gardens",

@@ -2,6 +2,7 @@ using RandomizerCore.Logic;
 using RandomizerCore.Logic.StateLogic;
 using RandomizerMod.RandomizerData;
 using RandomizerMod.RC;
+using RandomizerMod.Settings;
 
 namespace RandomizerModTests
 {
@@ -24,6 +25,24 @@ namespace RandomizerModTests
             return new(Default_CTX);
         }
 
+        public RandoModContext GetContext(string startName)
+        {
+            StartDef start = Data.GetStartDef(startName) ?? throw new KeyNotFoundException($"Start {startName} does not exist.");
+            GenerationSettings gs = new();
+            gs.StartLocationSettings.StartLocation = startName;
+            RandoModContext ctx = new(gs, start);
+            ctx.notchCosts.AddRange(CharmNotchCosts._vanillaCosts);
+            return ctx;
+        }
+
+        public RandoModContext GetContext(GenerationSettings gs)
+        {
+            StartDef start = Data.GetStartDef(gs.StartLocationSettings.StartLocation) ?? throw new KeyNotFoundException($"Start {gs.StartLocationSettings.StartLocation} does not exist.");
+            RandoModContext ctx = new(gs, start);
+            ctx.notchCosts.AddRange(CharmNotchCosts._vanillaCosts);
+            return ctx;
+        }
+
         public ProgressionManager GetProgressionManager()
         {
             return new(LM, new RandoModContext(Default_CTX));
@@ -34,6 +53,15 @@ namespace RandomizerModTests
             ProgressionManager pm = GetProgressionManager();
             foreach (var kvp in pmFieldValues) pm.Set(kvp.Key, kvp.Value);
             return pm;
+        }
+
+        public void UpdateWaypointsAndVanillaTransitions(ProgressionManager pm)
+        {
+            LogicManager lm = pm.lm;
+            pm.mu.AddWaypoints(lm.Waypoints);
+            pm.mu.AddTransitions(lm.TransitionLookup.Values);
+            pm.mu.AddPlacements(Data.Transitions.Where(kvp => kvp.Value.VanillaTarget is not null).Select(kvp => new RandomizerCore.GeneralizedPlacement(lm.GetTransitionStrict(kvp.Value.VanillaTarget), lm.GetTransitionStrict(kvp.Key))));
+            pm.mu.StartUpdating();
         }
 
         public LazyStateBuilder GetState(Dictionary<string, int> stateFieldValues)
