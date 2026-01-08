@@ -1505,7 +1505,7 @@
   },
   {
     "name": "Geo_Rock-Kingdom's_Edge_Oro_Far_Left",
-    "logic": "(Deepnest_East_06[left1] | Deepnest_East_06[top1] | (Deepnest_East_06[bot1] | Deepnest_East_06[door1] | Deepnest_East_06[right1]) + (LEFTCLAW | WINGS + ENEMYPOGOS)) + (RIGHTCLAW | WINGS + LEFTCLAW + ENEMYPOGOS | WINGS + $SHADESKIP | WINGS + $SHRIEKPOGO[2,before:ROOMSOUL])"
+    "logic": "(Deepnest_East_06[left1] | Deepnest_East_06[top1] | (Deepnest_East_06[bot1] | Deepnest_East_06[door1] | Deepnest_East_06[right1]) + (LEFTCLAW | WINGS + ENEMYPOGOS)) + (RIGHTCLAW | WINGS + LEFTCLAW | WINGS + $SHADESKIP | WINGS + $SHRIEKPOGO[2,before:ROOMSOUL])"
   },
   {
     "name": "Geo_Rock-Kingdom's_Edge_Oro_Middle_Left",
